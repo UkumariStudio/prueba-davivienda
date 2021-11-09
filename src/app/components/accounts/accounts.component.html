@@ -1,0 +1,14 @@
+<div class="container personal-container">
+    <div class="row">
+        <div class="col-md-4 account-card" *ngFor="let account of accountList; index as i">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseAccount'+i"
+                aria-expanded="true" [attr.aria-controls]="'collapseAccount'+i"> {{account.name}} </button>
+            <div class="collapse" [id]="'collapseAccount'+i">
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
+                    when the user activates the relevant trigger.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

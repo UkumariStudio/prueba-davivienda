@@ -1,14 +1,56 @@
-<div class="container personal-container">
+<div class="container personal-container" *ngIf="!noResults">
     <div class="row">
         <div class="col-md-4 account-card" *ngFor="let account of accountList; index as i">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseAccount'+i"
-                aria-expanded="true" [attr.aria-controls]="'collapseAccount'+i"> {{account.name}} </button>
-            <div class="collapse" [id]="'collapseAccount'+i">
-                <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
-                    when the user activates the relevant trigger.
+            <div class="card">
+                <div class="card-body account-body" [ngClass]="{
+                    'check-border':(account.status === 'activa' && account.checked),
+                    'warning-border':(account.status === 'inactiva' && account.checked)
+                }">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="card-title account-title" (click)="selectAccount(i)">{{ account.name }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <img class="account-status" [src]="checkStatusAccount(account.status, i)"
+                                alt="Estado de la cuenta">
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 15px 0px 0px 0px;" *ngIf="selectedAccount && indexAccount == i">
+                        <div class="col-md-5">
+                            <p class="card-text account-info account-label">No Cuenta: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="card-text account-info">{{ account.number }}</p>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedAccount && indexAccount == i">
+                        <div class="col-md-5">
+                            <p class="card-text account-info account-label">Tipo Cuenta: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="card-text account-info">{{ account.type }}</p>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedAccount && indexAccount == i">
+                        <div class="col-md-5">
+                            <p class="card-text account-info account-label">Saldo: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="card-text account-info">{{ account.balance | currency }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="container personal-container" *ngIf="noResults">
+    <div class="row" style="display: flex;justify-content: center;">
+        <img alt="No hay resultados" [src]="imgNoHayResultados" style="width: 14%;margin: 151px 0px 0px 0px;" />
+    </div>
+    <div class="row" style="display: flex;justify-content: center;">
+        <p class="m-0 pt-3 text-center">No hay resultados</p>
     </div>
 </div>

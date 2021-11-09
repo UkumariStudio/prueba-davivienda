@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ICON_CHECK, ICON_WARNING, IMG_NO_RESULTADOS, PATH_ACCOUNTS_SERVICE } from 'src/app/constants';
 import { Account } from 'src/app/model/account.model';
 import { AccountsService } from 'src/app/services/accounts.service';
 
@@ -10,55 +11,60 @@ import { AccountsService } from 'src/app/services/accounts.service';
 export class AccountsComponent implements OnInit {
 
   accountList: Account[] = [];
+  selectedAccount: boolean = false;
+  indexAccount: number = 0;
+  checkIcon = ICON_CHECK;
+  warningIcon = ICON_WARNING;
+  activeAccount: boolean = false;
+  noResults: boolean = true;
+  imgNoHayResultados = IMG_NO_RESULTADOS;
 
   constructor(
     private accountsService: AccountsService,
   ) { }
 
   ngOnInit(): void {
-    let response = {
-      "accounts": [
-        {
-          "name": "Davivienda MAESTRO",
-          "number": "430-658-901-123",
-          "type": "Ahorros",
-          "status": "activa",
-          "balance": "2392000.0000"
-        },
-        {
-          "name": "Davivienda VISA",
-          "number": "430-658-901-124",
-          "type": "Ahorros",
-          "status": "inactiva",
-          "balance": "7392000.0000"
-        },
-        {
-          "name": "CUENTA DAV 1",
-          "number": "430-658-901-125",
-          "type": "Ahorros",
-          "status": "activa",
-          "balance": "5392000.0000"
-        },
-        {
-          "name": "Davivienda Nomina",
-          "number": "430-658-901-126",
-          "type": "Ahorros",
-          "status": "inactiva",
-          "balance": "23452000.0000"
-        },
-        {
-          "name": "Daviviendo Pensión",
-          "number": "430-658-901-127",
-          "type": "Corriente",
-          "status": "activa",
-          "balance": "298392000.0000"
+    this.accountsService.getAccounts().subscribe(
+      response => {
+        if (response.accounts.length > 0) {
+          this.accountList = response.accounts;
+          
+          this.accountList.forEach(account => {
+            account.checked = false;
+          });
+          
+          this.noResults = false;
+          console.log(this.accountList);
+        } else {
+          this.noResults = true;
         }
-      ]
-    };
+      }
+    )
+  }
 
-    this.accountList = response.accounts;
+  selectAccount(indexAccount: number) {
+    this.indexAccount = indexAccount;
 
-    console.log(this.accountList);
+    this.accountList.forEach(account => {
+      account.checked = false;
+      this.selectedAccount = false;
+    });
+
+    this.accountList[indexAccount].checked = true;
+
+    if (this.accountList[indexAccount].checked) {
+      this.selectedAccount = true;
+    }
+  }
+
+  checkStatusAccount(status: string, indexAccount: number) {
+    if (status === 'activa' && status === this.accountList[indexAccount].status) {
+      return this.checkIcon;
+    } else if (status === 'inactiva' && status === this.accountList[indexAccount].status) {
+      return this.warningIcon;
+    } else {
+      return this.warningIcon;
+    }
   }
 
 }

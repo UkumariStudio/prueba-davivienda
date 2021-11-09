@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Account } from '../model/account.model';
+import { HttpClient } from '@angular/common/http';
+import { PATH_ACCOUNTS_SERVICE } from '../constants';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountsService {
 
-  account: Account[] = [];
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  constructor() { }
-
-  getAccounts(url: string){
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {this.account = data.accounts});
-
-    console.log(this.account);
-    return this.account;
+  getAccounts(): Observable<any>{
+    return this.http.get(PATH_ACCOUNTS_SERVICE);
   }
 
 }

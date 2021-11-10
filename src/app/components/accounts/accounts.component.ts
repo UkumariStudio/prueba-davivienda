@@ -28,22 +28,44 @@ export class AccountsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getAccounts();
+  }
+
+  getAccounts(){
     this.accountsService.getAccounts().subscribe(
       response => {
         if (response.accounts.length > 0) {
-          this.accountList = response.accounts;
+          this.noResults = false;
+
+          let accounts: Account[] = response.accounts;
           
-          this.accountList.forEach(account => {
+          accounts.forEach(account => {
             account.checked = false;
           });
-          
-          this.noResults = false;
+
+          let activeAccounts: Account[] = [];
+          let inactiveAccounts: Account[] = [];
+
+          accounts.forEach(account => {
+            if(account.status === 'activa'){
+              activeAccounts.push(account);
+            }
+            if(account.status === 'inactiva'){
+              inactiveAccounts.push(account);
+            }
+          });
+
+          console.log(activeAccounts);
+          console.log(inactiveAccounts);
+
+          this.accountList = activeAccounts.concat(inactiveAccounts);
+
           console.log(this.accountList);
         } else {
           this.noResults = true;
         }
       }
-    )
+    );
   }
 
   selectAccount(indexAccount: number) {

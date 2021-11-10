@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ICON_CHECK, ICON_WARNING, IMG_NO_RESULTADOS, PATH_ACCOUNTS_SERVICE } from 'src/app/constants';
+import { ICON_CHECK, 
+         ICON_USER, 
+         ICON_WARNING, 
+         IMG_NO_RESULTADOS } from 'src/app/constants';
 import { Account } from 'src/app/model/account.model';
 import { AccountsService } from 'src/app/services/accounts.service';
 
@@ -15,6 +18,7 @@ export class AccountsComponent implements OnInit {
   indexAccount: number = 0;
   checkIcon = ICON_CHECK;
   warningIcon = ICON_WARNING;
+  userIcon = ICON_USER;
   activeAccount: boolean = false;
   noResults: boolean = true;
   imgNoHayResultados = IMG_NO_RESULTADOS;
@@ -64,6 +68,14 @@ export class AccountsComponent implements OnInit {
       return this.warningIcon;
     } else {
       return this.warningIcon;
+    }
+  }
+
+  validateSelected(){
+    if(this.accountList.find(account => (account.checked===true && account.status==='activa'))){
+      return true;
+    } else {
+      return false;
     }
   }
 

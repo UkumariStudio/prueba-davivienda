@@ -1,5 +1,5 @@
 .personal-container {
-    padding-top: 60px;
+    padding: 35px;
 }
 
 .account-card {
@@ -28,6 +28,7 @@
 
 .account-body {
     padding: 20px 30px 20px 30px;
+    border-radius: 10px;
 }
 
 .account-status {
@@ -41,4 +42,9 @@
 
 .warning-border {
     border: 3px solid rgba(255,212,42,0.5);
+}
+
+.header-container {
+    background-color: #f31f2e;
+    padding: 10px 0px 10px 0px;
 }

@@ -1,7 +1,25 @@
+<!-- Header -->
+<header class="header-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" style="color:#FFFFFF;">
+                <h4 style="line-height: 1.5em;">Pago En Linea</h4>
+            </div>
+            <div class="col-md-5 float-right">
+                <h6 style="float: right;padding-top: 14px;color: #FFFFFF;">Juan Pérez</h6>
+            </div>
+            <div class="col-md-1 float-right">
+                <img [src]="userIcon" alt="user icon" style="width: 50%;">
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Accounts cards -->
 <div class="container personal-container" *ngIf="!noResults">
     <div class="row">
         <div class="col-md-4 account-card" *ngFor="let account of accountList; index as i">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
                 <div class="card-body account-body" [ngClass]="{
                     'check-border':(account.status === 'activa' && account.checked),
                     'warning-border':(account.status === 'inactiva' && account.checked)
@@ -46,6 +64,22 @@
     </div>
 </div>
 
+<!-- Back-Continue Buttons -->
+<div class="container personal-container" *ngIf="!noResults">
+    <div class="row">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-secondary" style="border-color: #000000;">Cancelar</button>
+        </div>
+        <div class="col-md-6 float-right">
+            <button type="button" class="btn btn-light"
+                [ngClass]="{'btn-light':(validateSelected()===false),'btn-success':(validateSelected()===true)}" 
+                [disabled]="!validateSelected()"
+                style="float: right;border-color: #000000;">Continuar</button>
+        </div>
+    </div>
+</div>
+
+<!-- No Results Container -->
 <div class="container personal-container" *ngIf="noResults">
     <div class="row" style="display: flex;justify-content: center;">
         <img alt="No hay resultados" [src]="imgNoHayResultados" style="width: 14%;margin: 151px 0px 0px 0px;" />
